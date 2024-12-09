@@ -12,6 +12,7 @@ namespace TaoyuanBIMAPI.Mappings
             this.CreateMap<BookmarkParameter, Bookmark>();
             this.CreateMap<Bookmark, BookmarkViewModel>();
             this.CreateMap<LayerParameter, Layer>();
+            this.CreateMap<LayerGroupParameter, LayersGroup>();
         }
     }
 }

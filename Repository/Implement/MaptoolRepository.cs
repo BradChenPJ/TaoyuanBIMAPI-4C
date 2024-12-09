@@ -21,9 +21,9 @@ namespace TaoyuanBIMAPI.Repository.Implement
         }
 
         #region 書籤
-        public List<BookmarkViewModel> GetAllBookmark(string userid)
+        public List<BookmarkViewModel> GetAllBookmark(UserBookmarkParameter userBookmarkParameter)
         {
-            List<Bookmark> bookmarkList = _taoyuanBimContext.Bookmarks.Where(x => x.UserId == userid).ToList();
+            List<Bookmark> bookmarkList = _taoyuanBimContext.Bookmarks.Where(x => x.UserId == userBookmarkParameter.UserId).ToList();
             List<BookmarkViewModel> allBookmarkList = _mapper.Map<List<Bookmark>, List<BookmarkViewModel>>(bookmarkList);
             return allBookmarkList;
         }
@@ -93,10 +93,21 @@ namespace TaoyuanBIMAPI.Repository.Implement
             Layer layerData = _mapper.Map<LayerParameter, Layer>(layerParameter);
             try
             {
-                _taoyuanBimContext.Layers.Add(layerData);
-                _taoyuanBimContext.SaveChanges();
-                _responseViewModel.Status = true;
-                _responseViewModel.Message = $"圖層:{layerData.LayerName} 新增成功";
+                //判斷LayerID有沒有重複
+                bool exist = _taoyuanBimContext.Layers.Any(x => x.LayerId == layerParameter.LayerId);
+                if (exist)
+                {
+                    _responseViewModel.Status = false;
+                    _responseViewModel.Message = $"圖層ID重複";
+                }
+                else 
+                {
+                    _taoyuanBimContext.Layers.Add(layerData);
+                    _taoyuanBimContext.SaveChanges();
+                    _responseViewModel.Status = true;
+                    _responseViewModel.Message = $"圖層:{layerData.LayerName} 新增成功";
+                }
+                
             }
             catch (Exception ex)
             {
@@ -130,6 +141,62 @@ namespace TaoyuanBIMAPI.Repository.Implement
             {
                 _responseViewModel.Status = false;
                 _responseViewModel.Message = $"圖層:ID {layerid} 刪除失敗，原因: {ex.Message}";
+            }
+            return _responseViewModel;
+        }
+        public ResponseViewModel AddLayerGroup(LayerGroupParameter layerGroupParameter)
+        {
+            LayersGroup layerGroupData = _mapper.Map<LayerGroupParameter, LayersGroup>(layerGroupParameter);
+            try
+            {
+                //判斷GroupID有沒有重複
+                bool exist = _taoyuanBimContext.LayersGroups.Any(x => x.GroupId == layerGroupParameter.GroupId);
+                if (exist)
+                {
+                    _responseViewModel.Status = false;
+                    _responseViewModel.Message = $"圖層群組ID重複";
+                }
+                else
+                {
+                    _taoyuanBimContext.LayersGroups.Add(layerGroupData);
+                    _taoyuanBimContext.SaveChanges();
+                    _responseViewModel.Status = true;
+                    _responseViewModel.Message = $"圖層群組:{layerGroupData.GroupName} 新增成功";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _responseViewModel.Status = false;
+                _responseViewModel.Message = $"圖層群組:{layerGroupData.GroupName} 新增失敗，原因: {ex.Message}";
+            }
+            return _responseViewModel;
+
+        }
+        public ResponseViewModel DeleteLayerGroup(string layerGroupid)
+        {
+            //找到這個id的資料
+            var deleteLayerGroupData = _taoyuanBimContext.LayersGroups.Find(layerGroupid);
+            try
+            {
+                if (deleteLayerGroupData != null)
+                {
+                    //刪除
+                    _taoyuanBimContext.LayersGroups.Remove(deleteLayerGroupData);
+                    _taoyuanBimContext.SaveChanges();
+                    _responseViewModel.Status = true;
+                    _responseViewModel.Message = $"圖層群組:{deleteLayerGroupData.GroupName} 與圖層刪除成功";
+                }
+                else
+                {
+                    _responseViewModel.Status = false;
+                    _responseViewModel.Message = $"圖層群組:ID {layerGroupid} 刪除失敗，原因: 無此圖層";
+                }
+            }
+            catch (Exception ex)
+            {
+                _responseViewModel.Status = false;
+                _responseViewModel.Message = $"圖層群組:ID {layerGroupid} 刪除失敗，原因: {ex.Message}";
             }
             return _responseViewModel;
         }

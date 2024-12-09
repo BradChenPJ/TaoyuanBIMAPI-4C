@@ -8,7 +8,7 @@ namespace TaoyuanBIMAPI.CollectionExtension
     {
         public static IServiceCollection AddDbConnection(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<TaoyuanBimContext>(options => options.UseSqlServer(configuration.GetConnectionString("ConnectionString")));
+            services.AddDbContext<TaoyuanBimContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
             return services;
         }

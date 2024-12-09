@@ -30,4 +30,8 @@
 
         public string? Slice { get; set; }
     }
+    public class UserBookmarkParameter
+    {
+        public string UserId { get; set; }
+    }
 }

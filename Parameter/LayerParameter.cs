@@ -4,7 +4,7 @@
     {
         public string LayerId { get; set; } = null!;
 
-        public string? Name { get; set; }
+        public string? LayerName { get; set; }
 
         public string? LayerType { get; set; }
 
