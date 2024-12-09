@@ -1,0 +1,6 @@
+@TaoyuanBIMAPI_HostAddress = http://localhost:5166
+
+GET {{TaoyuanBIMAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
