@@ -23,7 +23,7 @@ namespace TaoyuanBIMAPI.Repository.Implement
         #region 書籤
         public List<BookmarkViewModel> GetAllBookmark(UserBookmarkParameter userBookmarkParameter)
         {
-            List<Bookmark> bookmarkList = _taoyuanBimContext.Bookmarks.Where(x => x.UserId == userBookmarkParameter.UserId).ToList();
+            List<Bookmark> bookmarkList = _taoyuanBimContext.Bookmarks.Where(x => x.UserId == userBookmarkParameter.UserId).OrderBy(x => x.CreateTime).ToList();
             List<BookmarkViewModel> allBookmarkList = _mapper.Map<List<Bookmark>, List<BookmarkViewModel>>(bookmarkList);
             return allBookmarkList;
         }

@@ -31,7 +31,7 @@ public partial class TaoyuanBimContext : DbContext
         {
             entity.ToTable("Bookmark");
 
-            entity.Property(e => e.BookmarkId).HasColumnName("bookmarkID");
+            entity.Property(e => e.BookmarkId).HasColumnName("bookmarkId");
             entity.Property(e => e.Base64img).HasColumnName("base64img");
             entity.Property(e => e.BookmarkName)
                 .HasMaxLength(120)
@@ -65,17 +65,17 @@ public partial class TaoyuanBimContext : DbContext
                 .HasColumnName("tilt");
             entity.Property(e => e.UserId)
                 .HasMaxLength(120)
-                .HasColumnName("userID");
+                .HasColumnName("userId");
         });
 
         modelBuilder.Entity<Layer>(entity =>
         {
             entity.Property(e => e.LayerId)
                 .HasMaxLength(60)
-                .HasColumnName("layerID");
+                .HasColumnName("layerId");
             entity.Property(e => e.GroupId)
                 .HasMaxLength(60)
-                .HasColumnName("groupID");
+                .HasColumnName("groupId");
             entity.Property(e => e.LayerName)
                 .HasMaxLength(60)
                 .HasColumnName("layerName");
@@ -91,7 +91,7 @@ public partial class TaoyuanBimContext : DbContext
                 .HasColumnName("url");
             entity.Property(e => e.UrlId)
                 .HasMaxLength(30)
-                .HasColumnName("urlID");
+                .HasColumnName("urlId");
 
             entity.HasOne(d => d.Group).WithMany(p => p.Layers)
                 .HasForeignKey(d => d.GroupId)
@@ -107,7 +107,7 @@ public partial class TaoyuanBimContext : DbContext
 
             entity.Property(e => e.GroupId)
                 .HasMaxLength(60)
-                .HasColumnName("groupID");
+                .HasColumnName("groupId");
             entity.Property(e => e.Dimention)
                 .HasMaxLength(4)
                 .HasColumnName("dimention");

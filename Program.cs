@@ -1,11 +1,11 @@
 using Microsoft.OpenApi.Models;
 using TaoyuanBIMAPI.CollectionExtension;
 using TaoyuanBIMAPI.Mappings;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -35,12 +35,19 @@ builder.Services.AddSwaggerGen(c =>
     });
 
 });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy_TaoyuanBIM", policy =>
+    {
+        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        //policy.WithOrigins("https://localhost:*").AllowAnyHeader().AllowAnyMethod();
+    });
+});
 
 //其他服務加進container
 builder.Services.AddDbConnection(builder.Configuration);
 builder.Services.AddRepositoryInterface();
 builder.Services.AddAutoMapper(typeof(MappingsProfile));
-
 
 var app = builder.Build();
 
@@ -53,7 +60,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowOrigin");
+app.UseCors("CorsPolicy_TaoyuanBIM");
 
 app.UseAuthorization();
 
