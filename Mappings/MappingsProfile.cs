@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using TaoyuanBIMAPI.Parameter;
-using TaoyuanBIMAPI.Model;
 using TaoyuanBIMAPI.ViewModel;
+using TaoyuanBIMAPI.Model.Data;
 
 namespace TaoyuanBIMAPI.Mappings
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TaoyuanBIMAPI.Model;
+namespace TaoyuanBIMAPI.Model.Data;
 
 public partial class Layer
 {

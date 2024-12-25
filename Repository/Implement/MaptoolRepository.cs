@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.OpenApi.Validations.Rules;
-using TaoyuanBIMAPI.Model;
+using TaoyuanBIMAPI.Model.Data;
 using TaoyuanBIMAPI.Parameter;
 using TaoyuanBIMAPI.Repository.Interface;
 using TaoyuanBIMAPI.ViewModel;

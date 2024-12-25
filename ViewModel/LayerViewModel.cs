@@ -1,4 +1,4 @@
-﻿using TaoyuanBIMAPI.Model;
+﻿using TaoyuanBIMAPI.Model.Data;
 
 namespace TaoyuanBIMAPI.ViewModel
 {

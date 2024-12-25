@@ -1,4 +1,8 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 using TaoyuanBIMAPI.CollectionExtension;
 using TaoyuanBIMAPI.Mappings;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -46,6 +50,7 @@ builder.Services.AddCors(options =>
 
 //其他服務加進container
 builder.Services.AddDbConnection(builder.Configuration);
+builder.Services.AddAuthService(builder.Configuration);
 builder.Services.AddRepositoryInterface();
 builder.Services.AddAutoMapper(typeof(MappingsProfile));
 
@@ -61,6 +66,10 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseCors("CorsPolicy_TaoyuanBIM");
+
+app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

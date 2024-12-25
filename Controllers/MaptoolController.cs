@@ -1,4 +1,6 @@
 ﻿using Azure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TaoyuanBIMAPI.Parameter;
 using TaoyuanBIMAPI.Repository.Implement;
@@ -41,6 +43,7 @@ namespace TaoyuanBIMAPI.Controllers
         #endregion
 
         #region 圖層
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetAllLayers")]
         public ActionResult GetAllLayers()

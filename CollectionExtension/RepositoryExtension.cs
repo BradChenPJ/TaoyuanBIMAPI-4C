@@ -8,6 +8,7 @@ namespace TaoyuanBIMAPI.CollectionExtension
         public static IServiceCollection AddRepositoryInterface(this IServiceCollection services)
         {
             services.AddScoped<IMaptoolRepository, MaptoolRepository>();
+            services.AddScoped<IIdentityRepository, IdentityRepository>();
 
             return services;
         }
