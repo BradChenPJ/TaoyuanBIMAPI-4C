@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Azure;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -110,22 +111,18 @@ namespace TaoyuanBIMAPI.Repository.Implement
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Issuer = _configuration.GetValue<string>("JwtSettings:Issuer"),
-                    Expires = DateTime.UtcNow.AddHours(8).AddMinutes(360),  //utc +8小時是台灣時間，再加360分鐘是6小時 Expires
+                    Expires = DateTime.UtcNow.AddHours(8).AddMinutes(30),  //8小時30分 Expires 
                     Subject = new ClaimsIdentity(claims),
                     SigningCredentials = new SigningCredentials(signKey, SecurityAlgorithms.HmacSha256Signature)
                 };
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var token = tokenHandler.CreateJwtSecurityToken(tokenDescriptor);
                 var tokenString = tokenHandler.WriteToken(token);
-
                 return new
                 {
-                    status = true,
-                    message = "登入成功",
-                    token = tokenString,
-                    userName = _user.UserName,
-                    userCName = _user.CName,
-                    userRole = roleNames
+                    Status = true,
+                    Message = "登入成功",
+                    Token = tokenString
                 };
 
             }

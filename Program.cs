@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using TaoyuanBIMAPI.CollectionExtension;
+using TaoyuanBIMAPI.CollectionMiddleware;
 using TaoyuanBIMAPI.Mappings;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -22,7 +23,7 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Please enter JWT with Bearer (ex: Bearer eyJhbGciOiJIUzI1NiI...)",
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey,
-        Scheme = "bearer"
+        Scheme = "Bearer"
     });
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
@@ -68,6 +69,8 @@ app.UseHttpsRedirection();
 app.UseCors("CorsPolicy_TaoyuanBIM");
 
 app.UseRouting();
+
+app.UseMiddleware<JwtCookieMiddleware>();   
 
 app.UseAuthentication();
 
