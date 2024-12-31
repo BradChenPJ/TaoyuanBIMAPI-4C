@@ -122,7 +122,8 @@ namespace TaoyuanBIMAPI.Repository.Implement
                 {
                     Status = true,
                     Message = "登入成功",
-                    Token = tokenString
+                    Token = tokenString,
+                    CName = _user.CName
                 };
 
             }

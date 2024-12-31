@@ -43,7 +43,7 @@ namespace TaoyuanBIMAPI.Controllers
         #endregion
 
         #region 圖層
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetAllLayers")]
         public ActionResult GetAllLayers()

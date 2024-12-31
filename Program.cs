@@ -44,8 +44,8 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy_TaoyuanBIM", policy =>
     {
-        policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-        //policy.WithOrigins("https://localhost:*").AllowAnyHeader().AllowAnyMethod();
+        //policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+        policy.WithOrigins("http://localhost:5173").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
     });
 });
 
