@@ -12,23 +12,29 @@ namespace TaoyuanBIMAPI.Repository.Implement
         private readonly TaoyuanBimContext _taoyuanBimContext;
         private readonly IMapper _mapper;
         private readonly ResponseViewModel _responseViewModel;
-        public MaptoolRepository(TaoyuanBimContext taoyuanBimContext, IMapper mapper)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public MaptoolRepository(TaoyuanBimContext taoyuanBimContext, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _taoyuanBimContext = taoyuanBimContext;
             _mapper = mapper;
             _responseViewModel = new ResponseViewModel();
-
+            _httpContextAccessor = httpContextAccessor;
         }
 
         #region 書籤
-        public List<BookmarkViewModel> GetAllBookmark(UserBookmarkParameter userBookmarkParameter)
+        public List<BookmarkViewModel> GetAllBookmark()
         {
-            List<Bookmark> bookmarkList = _taoyuanBimContext.Bookmarks.Where(x => x.UserId == userBookmarkParameter.UserId).OrderBy(x => x.CreateTime).ToList();
+            var httpContext = _httpContextAccessor.HttpContext;
+            string userId = httpContext.User.Identity.Name;
+            List<Bookmark> bookmarkList = _taoyuanBimContext.Bookmarks.Where(x => x.UserId == userId).OrderBy(x => x.CreateTime).ToList();
             List<BookmarkViewModel> allBookmarkList = _mapper.Map<List<Bookmark>, List<BookmarkViewModel>>(bookmarkList);
             return allBookmarkList;
         }
         public ResponseViewModel AddBookmark(BookmarkParameter bookmarkParameter)
         {
+            var httpContext = _httpContextAccessor.HttpContext;
+            string userId = httpContext.User.Identity.Name;
+            bookmarkParameter.UserId = userId;
             Bookmark bookmarkData = _mapper.Map<BookmarkParameter, Bookmark>(bookmarkParameter);
             try
             {
@@ -83,8 +89,8 @@ namespace TaoyuanBIMAPI.Repository.Implement
                 GroupName = group.GroupName,
                 GroupOrder = group.GroupOrder,
                 Dimention = group.Dimention,
-                Layers = _taoyuanBimContext.Layers.ToList()
-            }).ToList();
+                Layers = _taoyuanBimContext.Layers.Where(x =>x.GroupId == group.GroupId).OrderBy(layer=>layer.LayerOrder).ToList()
+            }).OrderBy(group => group.GroupOrder).ToList();
 
             return allLayers;
         }

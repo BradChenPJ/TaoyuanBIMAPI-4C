@@ -5,7 +5,7 @@ namespace TaoyuanBIMAPI.Repository.Interface
 {
     public interface IMaptoolRepository
     {
-        List<BookmarkViewModel> GetAllBookmark(UserBookmarkParameter userBookmarkParameter);
+        List<BookmarkViewModel> GetAllBookmark();
         ResponseViewModel AddBookmark(BookmarkParameter bookmarkParameter);
         ResponseViewModel DeleteBookmark(int bookmarkid);
         List<LayerViewModel> GetAllLayers();

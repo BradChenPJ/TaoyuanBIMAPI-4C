@@ -20,13 +20,14 @@ namespace TaoyuanBIMAPI.Controllers
         }
 
         #region 書籤
-        [HttpPost]
+        [Authorize]
+        [HttpGet]
         [Route("GetAllBookmark")]
-        public ActionResult GetAllBookmark([FromBody] UserBookmarkParameter userBookmarkParameter)
+        public ActionResult GetAllBookmark()
         {
-            return Ok(_maptoolRepository.GetAllBookmark(userBookmarkParameter));
+            return Ok(_maptoolRepository.GetAllBookmark());
         }
-
+        [Authorize]
         [HttpPost]
         [Route("AddBookmark")]
         public ActionResult AddBookmark([FromBody] BookmarkParameter bookmarkParameter)
@@ -43,11 +44,12 @@ namespace TaoyuanBIMAPI.Controllers
         #endregion
 
         #region 圖層
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpGet]
         [Route("GetAllLayers")]
         public ActionResult GetAllLayers()
         {
+            var username = User.Identity.Name;
             return Ok(_maptoolRepository.GetAllLayers());
         }
 

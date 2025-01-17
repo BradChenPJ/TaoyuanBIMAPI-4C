@@ -50,6 +50,7 @@ builder.Services.AddCors(options =>
 });
 
 //其他服務加進container
+builder.Services.AddHttpContextAccessor();  //有token驗證的話直接抓username和role
 builder.Services.AddDbConnection(builder.Configuration);
 builder.Services.AddAuthService(builder.Configuration);
 builder.Services.AddRepositoryInterface();
@@ -58,11 +59,13 @@ builder.Services.AddAutoMapper(typeof(MappingsProfile));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
